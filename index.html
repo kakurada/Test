@@ -43,7 +43,7 @@
 
 
     var bX = 50; 
-    var bY = cvs.height - (fg.height + bird.height)-1; 
+    var bY = cvs.height - (fg.height + bird.height); 
     var score = 0;
     
 
@@ -159,7 +159,7 @@ function draw(){
             if( bX+10>=pipe[n].x+390 && bX+bird.width<=pipe[n].x+450 && bY+bird.height>cvs.height-fg.height ||　bY+bird.height>cvs.height-fg.height+1 && bY+bird.height<=cvs.height+100){
                 bY += 4;
            
-                if(bY>cvs.height+50){
+                if(bY>cvs.height+10){
 
                     setTimeout(reload,1000);
                     ctx.font = "50px serif";
