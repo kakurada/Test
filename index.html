@@ -29,40 +29,40 @@
     var cvs = document.getElementById("canvas");
     var ctx = cvs.getContext("2d");
 
-    var bg = new Image(); //背景
-    var bird = new Image(); //鳥
-    var fg = new Image(); //地面
-    var pipeSouth = new Image(); //ドカン下
+    var bg = new Image(); 
+    var bird = new Image(); 
+    var fg = new Image();
+    var pipeSouth = new Image(); 
     var pipeSouth2 = new Image();
     
     bg.src = "fig/2021-08-20-19-25-26.png";
     bird.src = "fig/2021-08-20-19-09-12.png";
     fg.src = "fig/2021-08-20-13-16-24.png";
-    pipeSouth.src = "fig/2021-08-20-13-14-31.png";
+    pipeSouth.src = "fig/2021-08-22-14-20-09.png";
     pipeSouth2.src = "fig/2021-08-20-13-13-27.png";
 
 
-    var bX = 50;  //鳥の表示位置250
-    var bY = cvs.height - (fg.height + bird.height)-1;  //鳥の表示位置205
+    var bX = 50; 
+    var bY = cvs.height - (fg.height + bird.height)-1; 
     var score = 0;
-
+    
 
 
     var pipe = [];
     pipe[0] = {
-        x : cvs.width, //canvas幅
+        x : cvs.width, 
         y : 0
     };
 
     var coin = [];
     coin[0] = {
-        x : cvs.width, //canvas幅
+        x : cvs.width, 
         y : 0,
     };
     
     var ground = [];
     ground[0] = {
-        x : 0, //canvas幅
+        x : 0, 
         y : 0
     };
 
@@ -87,12 +87,10 @@ function keyUpHandler(e) {
         location.reload();
     }
 
-
-    function draw(){
-        ctx.drawImage(bg,0,0);
-        ctx.drawImage(bird,bX,bY);
-         
-
+function draw(){
+    ctx.drawImage(bg,0,0);
+    ctx.drawImage(bird,bX,bY);
+        
         for(var n=0 ; n < pipe.length; n++){
            
             ctx.drawImage(pipeSouth,pipe[n].x,cvs.height - fg.height);
@@ -134,75 +132,80 @@ function keyUpHandler(e) {
             
             
             
-            if( coin[l].x == 350 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
+            if( coin[l].x == 350 ){
                 coin.push({
                     x : cvs.width,
                     y : Math.floor(Math.random()*50)-50
                 });
             }
             
-            
-                if(bX<=coin[l].x && bX+bird.width >= coin[l].x && bY-10<=coin[l].y+200 && coin[l].y+200<=bY+bird.height+10){
+            if(bX<=coin[l].x && bX+bird.width >= coin[l].x && bY-10<=coin[l].y+200 && coin[l].y+200<=bY+bird.height+10){
                     score++;
                     coin[l] = "invisible";
-                }
-    }
-
-          
+            }
+               
+        }
+ 
         for(var m=0 ; m < ground.length; m++){
-            //console.log('pipe.length:' + pipe.length);
+            
            
             ctx.drawImage(fg,ground[m].x,cvs.height - fg.height);
                 ground[m].x--;
-              
-                if( bX>=pipe[n].x+375 && bX+bird.width<=pipe[n].x+450 && bY+bird.height>cvs.height-fg.height ||　bY+bird.height>cvs.height-fg.height+1 && bY+bird.height<=cvs.height+100){
-            bY += 5;
-           
-            if(bY>cvs.height){
-        
-                setTimeout(reload,1000);
-                ctx.font = "50px serif";
-                ctx.fillStyle ="red";
-                ctx.fillText("GAME OVER",75,cvs.height/2);
-               
-            }
-        }else if(bY+bird.height<=cvs.height-fg.height){
-            bY += 0.3;
-        }
-
-        if(spacePressed && bY+bird.height>=cvs.height-fg.height && bY+bird.height<=cvs.height-fg.height+1 && (bX>=pipe[n].x&&bX<pipe[n].x+375||bX+bird.width>pipe[n].x+450&&bX+bird.width<=pipe[n].x+600||bX+bird.width<=ground[m].x+600)) {
-            bY -= 50 ;
-        }
             
-            if( ground[m].x == 350 ){  //ドカン左端位置が200進んだら（200 = canvas幅:500 - ドカン左端pipe[i].x 300）
+            if(bY+bird.height<=cvs.height-fg.height){
+                bY += 0.3;
+            }
+
+            if( bX+10>=pipe[n].x+390 && bX+bird.width<=pipe[n].x+450 && bY+bird.height>cvs.height-fg.height ||　bY+bird.height>cvs.height-fg.height+1 && bY+bird.height<=cvs.height+100){
+                bY += 4;
+           
+                if(bY>cvs.height+50){
+
+                    setTimeout(reload,1000);
+                    ctx.font = "50px serif";
+                    ctx.fillStyle ="red";
+                    ctx.fillText("GAME OVER",75,cvs.height/2);
+                    ctx.font = "45px serif";
+                    ctx.fillStyle ="black";
+                    ctx.fillText("点数 : " + score + ' point',10,cvs.height-20);
+                    return false;
+
+                }
+            }
+        
+            if(spacePressed && bY+bird.height>=cvs.height-fg.height && bY+bird.height<=cvs.height-fg.height+1 && (bX>=pipe[n].x&&bX+10<pipe[n].x+390||bX+bird.width>pipe[n].x+450&&bX+bird.width<=pipe[n].x+600||bX+bird.width<=ground[m].x+600)) {
+                bY -= 50 ;
+            }
+            
+            if( ground[m].x == 350 ){
                 ground.push({
                     x : cvs.width,
                     y : Math.floor(Math.random()*fg.height)-fg.height
                 });
             }
-         
-        }
-        
-        if(score == 100){
-            setTimeout(reload,100);
-            ctx.fillStyle ="red";                  
-            ctx.font = "50px serif";
-            ctx.fillText("CLEAR",175,cvs.height/2);
-        }    
-      
+
+            if(bX+bird.width<ground[m].x+300){
+                ctx.font = "50px serif";
+                ctx.fillStyle ="black";
+                ctx.fillText("START",170,150);
+                ctx.font = "25px serif";
+                ctx.fillStyle ="black";
+                ctx.fillText("space → jump",175,175);
+                requestAnimationFrame(draw);
+                return false;    
+            }
+        }           
     }
         
-        ctx.fillStyle = "#000"; //カラー
-        ctx.font = "16px"; //大きさ
-        ctx.fillText("点数 : " + score + ' point',10,cvs.height-20); //表示内容、位置
+        ctx.fillStyle = "#000";
+        ctx.font = "16px";
+        ctx.fillText("点数 : " + score + ' point',10,cvs.height-20);
         requestAnimationFrame(draw);
-
         
-       
-    }
+}
+   
+        draw();
 
-    
-    draw();
 </script>
 </body>
 </html>
