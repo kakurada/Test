@@ -92,8 +92,19 @@ document.onmouseup = function (e){
     spacePressed = false;
 }
 
-function reload() {
-    location.reload();
+document.addEventListener("touchstart", touchStartHandler, false);
+document.addEventListener("touchup", touchUpHandler, false);
+
+function touchStartHandler(e) {
+    
+        spacePressed = true;
+    
+}
+
+function touchUpHandler(e) {
+   
+        spacePressed = false;
+    
 }
 
 function draw(){
