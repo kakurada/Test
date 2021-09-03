@@ -83,9 +83,18 @@ function keyUpHandler(e) {
         spacePressed = false;
     }
 }
-    function reload() {
-        location.reload();
-    }
+
+document.onmousedown = function (e){
+    spacePressed = true;
+}
+
+document.onmouseup = function (e){
+    spacePressed = false;
+}
+
+function reload() {
+    location.reload();
+}
 
 function draw(){
     ctx.drawImage(bg,0,0);
