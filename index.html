@@ -93,18 +93,16 @@ document.onmouseup = function (e){
 }
 
 document.addEventListener("touchstart", touchStartHandler, false);
-document.addEventListener("touchup", touchUpHandler, false);
+document.addEventListener("touchend", touchEndHandler, false);
 
 function touchStartHandler(e) {
     
         spacePressed = true;
-    
 }
 
-function touchUpHandler(e) {
+function touchEndHandler(e) {
    
         spacePressed = false;
-    
 }
 
 function draw(){
